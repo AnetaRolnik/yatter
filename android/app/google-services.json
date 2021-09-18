@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "197978597250",
+    "project_id": "yatter-2f5d4",
+    "storage_bucket": "yatter-2f5d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197978597250:android:acebd83674d823359dd19b",
+        "android_client_info": {
+          "package_name": "com.example.yatter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197978597250-ojh4gnekejue0h3vprpo35fe52i73t6t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiVyj3xG5-lq8xBhyN2X7IDQAwyS9Pz6Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197978597250-ojh4gnekejue0h3vprpo35fe52i73t6t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
