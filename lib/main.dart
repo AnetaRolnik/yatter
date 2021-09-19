@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import './screens/chat_screen.dart';
+import './screens/auth_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,8 +24,8 @@ class MyApp extends StatelessWidget {
                 primarySwatch: Colors.blue,
               ),
               home: appSnapshot.connectionState == ConnectionState.done
-                  ? ChatScreen()
-                  : Text('Loading')
+                  ? const AuthScreen()
+                  : const Text('Loading')
           );
         });
   }
