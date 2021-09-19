@@ -14,15 +14,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
     return FutureBuilder(
-        // Initialize FlutterFire:
+      // Initialize FlutterFire:
         future: _initialization,
         builder: (context, appSnapshot) {
           return MaterialApp(
-            title: 'Yatter',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: ChatScreen(),
+              title: 'Yatter',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: appSnapshot.connectionState == ConnectionState.done
+                  ? ChatScreen()
+                  : Text('Loading')
           );
         });
   }
