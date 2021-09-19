@@ -10,6 +10,7 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _formKey = GlobalKey<FormState>();
+  var _isLogin = true;
   String _userEmail = '';
   String _userName = '';
   String _userPassword = '';
@@ -36,6 +37,7 @@ class _AuthFormState extends State<AuthForm> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 TextFormField(
+                  key: const ValueKey('email'),
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
                     labelText: 'Email address',
@@ -50,21 +52,24 @@ class _AuthFormState extends State<AuthForm> {
                     _userEmail = val!;
                   },
                 ),
-                TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Username',
+                if (!_isLogin)
+                  TextFormField(
+                    key: const ValueKey('username'),
+                    decoration: const InputDecoration(
+                      labelText: 'Username',
+                    ),
+                    validator: (val) {
+                      if (val!.isEmpty || val.length < 4) {
+                        return 'Password enter at least 4 characters.';
+                      }
+                      return null;
+                    },
+                    onSaved: (val) {
+                      _userName = val!;
+                    },
                   ),
-                  validator: (val) {
-                    if (val!.isEmpty || val.length < 4) {
-                      return 'Password enter at least 4 characters.';
-                    }
-                    return null;
-                  },
-                  onSaved: (val) {
-                    _userName = val!;
-                  },
-                ),
                 TextFormField(
+                  key: const ValueKey('password'),
                   decoration: const InputDecoration(
                     labelText: 'Password',
                   ),
@@ -81,12 +86,18 @@ class _AuthFormState extends State<AuthForm> {
                 ),
                 const SizedBox(height: 12),
                 ElevatedButton(
-                  child: const Text('Log in'),
+                  child: Text(_isLogin ? 'Log in' : 'Sign up'),
                   onPressed: _trySubmit,
                 ),
                 TextButton(
-                  child: const Text("Don't have an account yet?' Sign up"),
-                  onPressed: () {},
+                  child: Text(_isLogin
+                      ? 'Create new account'
+                      : 'I already have an account'),
+                  onPressed: () {
+                    setState(() {
+                      _isLogin = !_isLogin;
+                    });
+                  },
                 ),
               ],
             ),
