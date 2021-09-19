@@ -15,18 +15,42 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final Future<FirebaseApp> _initialization = Firebase.initializeApp();
     return FutureBuilder(
-      // Initialize FlutterFire:
+        // Initialize FlutterFire:
         future: _initialization,
         builder: (context, appSnapshot) {
           return MaterialApp(
               title: 'Yatter',
               theme: ThemeData(
-                primarySwatch: Colors.blue,
+                primaryColor: const Color.fromRGBO(185, 147, 214, 1),
+                colorScheme: ColorScheme.fromSwatch().copyWith(
+                  secondary: const Color.fromRGBO(140, 166, 219, 1),
+                ),
+                elevatedButtonTheme: ElevatedButtonThemeData(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue,
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  ),
+                ),
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    primary: Colors.blue,
+                    textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
+                fontFamily: 'Ubuntu',
+                textTheme: const TextTheme(
+                  headline1: TextStyle(fontSize: 32.0, fontWeight: FontWeight.bold),
+                  headline2: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
+                  bodyText2: TextStyle(fontSize: 14.0),
+                ),
               ),
               home: appSnapshot.connectionState == ConnectionState.done
                   ? const AuthScreen()
-                  : const Text('Loading')
-          );
+                  : const Text('Loading'));
         });
   }
 }
