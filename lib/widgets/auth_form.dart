@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
 
 class AuthForm extends StatefulWidget {
-  const AuthForm(this.submitFn, {Key? key}) : super(key: key);
+  const AuthForm(this.submitFn, this.isLoading, {Key? key}) : super(key: key);
 
+  final bool isLoading;
   final void Function(
     String email,
     String userName,
@@ -100,10 +101,12 @@ class _AuthFormState extends State<AuthForm> {
                   },
                 ),
                 const SizedBox(height: 12),
-                ElevatedButton(
-                  child: Text(_isLogin ? 'Log in' : 'Sign up'),
-                  onPressed: _trySubmit,
-                ),
+                widget.isLoading
+                    ? const CircularProgressIndicator()
+                    : ElevatedButton(
+                        child: Text(_isLogin ? 'Log in' : 'Sign up'),
+                        onPressed: _trySubmit,
+                      ),
                 TextButton(
                   child: Text(_isLogin
                       ? 'Create new account'

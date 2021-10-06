@@ -14,6 +14,7 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen> {
   final _auth = FirebaseAuth.instance;
+  var _isLoading = false;
 
   void _submitAuthForm(
     String email,
@@ -25,6 +26,10 @@ class _AuthScreenState extends State<AuthScreen> {
     var authResult;
 
     try {
+      setState(() {
+        _isLoading = true;
+      });
+
       if (isLogin) {
         authResult = await _auth.signInWithEmailAndPassword(
           email: email,
@@ -50,6 +55,9 @@ class _AuthScreenState extends State<AuthScreen> {
       }
 
       ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(content: Text(message)));
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -64,6 +72,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 Image.asset('assets/images/logo.png'),
                 AuthForm(
                   _submitAuthForm,
+                  _isLoading,
                 ),
               ],
             ),
