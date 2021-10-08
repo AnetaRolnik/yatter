@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'message_bubble.dart';
 
 class Messages extends StatelessWidget {
   const Messages({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('chat')
@@ -23,7 +27,11 @@ class Messages extends StatelessWidget {
         final documents = chatSnapshot.data!.docs;
         return ListView.builder(
           reverse: true,
-          itemBuilder: (ctx, index) => Text(documents[index]['text']),
+          itemBuilder: (ctx, index) => MessageBubble(
+            documents[index]['text'],
+            documents[index]['userId'] == user!.uid,
+            key: ValueKey( documents[index].id),
+          ),
           itemCount: documents.length,
         );
       },
