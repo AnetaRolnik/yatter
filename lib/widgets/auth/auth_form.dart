@@ -27,7 +27,7 @@ class _AuthFormState extends State<AuthForm> {
   String _userEmail = '';
   String _userName = '';
   String _userPassword = '';
-  File? _userImageFile;
+  File _userImageFile = File('');
 
   void _pickedImage(File image) {
     _userImageFile = image;
@@ -37,7 +37,7 @@ class _AuthFormState extends State<AuthForm> {
     final isValid = _formKey.currentState!.validate();
     FocusScope.of(context).unfocus();
 
-    if (_userImageFile == null && !_isLogin) {
+    if (_userImageFile.path.isEmpty && !_isLogin) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please pick an image'),
@@ -52,7 +52,7 @@ class _AuthFormState extends State<AuthForm> {
         _userEmail.trim(),
         _userName.trim(),
         _userPassword.trim(),
-        _userImageFile!,
+        _userImageFile,
         _isLogin,
         context,
       );
