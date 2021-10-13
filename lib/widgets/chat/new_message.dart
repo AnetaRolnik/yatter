@@ -41,6 +41,8 @@ class _NewMessageState extends State<NewMessage> {
             child: TextField(
               controller: _controller,
               decoration: const InputDecoration(labelText: 'Send a message...'),
+              autocorrect: true,
+              enableSuggestions: true,
               onChanged: (value) {
                 setState(() {
                   _enteredMessage = value;
@@ -51,6 +53,7 @@ class _NewMessageState extends State<NewMessage> {
           IconButton(
             onPressed: _enteredMessage.trim().isEmpty ? null : _sendMessage,
             icon: const Icon(Icons.send),
+            color: Colors.blue,
           ),
         ],
       ),
