@@ -5,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class MessageBubble extends StatefulWidget {
-  const MessageBubble(
-      this.message, this.isMe, this.username, this.userImage, this.createdAt,
+  const MessageBubble(this.message, this.isMe, this.username, this.userImage,
+      this.createdAt, this.photo,
       {Key? key})
       : super(key: key);
 
@@ -15,6 +15,7 @@ class MessageBubble extends StatefulWidget {
   final String username;
   final String userImage;
   final Timestamp createdAt;
+  final String photo;
 
   @override
   State<MessageBubble> createState() => _MessageBubbleState();
@@ -72,13 +73,19 @@ class _MessageBubbleState extends State<MessageBubble> {
                         ),
                       ),
                       const SizedBox(height: 4),
-                      Text(
-                        widget.message,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
+                      if (!widget.message.isEmpty)
+                        Text(
+                          widget.message,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
-                      ),
+                      if (!widget.photo.isEmpty && !widget.message.isEmpty) SizedBox(height: 10),
+                      if (!widget.photo.isEmpty)
+                        Image(
+                          image: NetworkImage(widget.photo),
+                        ),
                     ],
                   ),
                 ),
