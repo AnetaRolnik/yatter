@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class NewMessage extends StatefulWidget {
   const NewMessage({Key? key}) : super(key: key);
@@ -44,7 +45,7 @@ class _NewMessageState extends State<NewMessage> {
           .ref()
           .child('user_photo')
           .child(user.uid)
-          .child(_selectedPhoto!.path.split('/').last);
+          .child(Uuid().v1());
 
       await ref.putFile(_selectedPhoto!);
       _urlPhoto = await ref.getDownloadURL();
