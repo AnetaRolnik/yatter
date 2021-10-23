@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class NewMessage extends StatefulWidget {
   const NewMessage({Key? key}) : super(key: key);
@@ -19,6 +20,8 @@ class _NewMessageState extends State<NewMessage> {
   var _enteredMessage = '';
   var _urlPhoto = '';
   File? _selectedPhoto;
+  final SpeechToText _speech = SpeechToText();
+  bool _isListening = false;
 
   void _uploadPhoto() async {
     final selectedPhotoFile = await ImagePicker().pickImage(
@@ -40,7 +43,7 @@ class _NewMessageState extends State<NewMessage> {
         .doc(user!.uid)
         .get();
 
-    if(_selectedPhoto != null) {
+    if (_selectedPhoto != null) {
       final ref = FirebaseStorage.instance
           .ref()
           .child('user_photo')
@@ -67,6 +70,29 @@ class _NewMessageState extends State<NewMessage> {
     });
   }
 
+  Future<void> _convertToText() async {
+    if (!_isListening) {
+      bool hasSpeech = await _speech.initialize();
+      if (hasSpeech) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) => setState(() {
+            _controller.text = val.recognizedWords;
+            _enteredMessage = val.recognizedWords;
+            if(val.finalResult) {
+              _isListening = false;
+            }
+          }),
+          listenFor: Duration(seconds: 30),
+          pauseFor: Duration(seconds: 5),
+        );
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,12 +103,33 @@ class _NewMessageState extends State<NewMessage> {
           Expanded(
             child: TextField(
               controller: _controller,
+              textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
-                labelText: 'Send a message...',
-                prefixIcon: IconButton(
-                  onPressed: _uploadPhoto,
-                  icon: const Icon(Icons.photo_album),
-                  color: Colors.blue,
+                hintText: 'Send a message...',
+                prefixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    IconButton(
+                      onPressed: _uploadPhoto,
+                      icon: const Icon(
+                        Icons.photo_album,
+                        size: 20,
+                      ),
+                      color: Colors.blue,
+                      padding: const EdgeInsets.symmetric(horizontal: 4),
+                      constraints: const BoxConstraints(),
+                    ),
+                    IconButton(
+                      onPressed: _convertToText,
+                      icon: Icon(
+                        Icons.mic,
+                        size: 20,
+                      ),
+                      color: _isListening ? Colors.red : Colors.blue,
+                      padding: const EdgeInsets.only(left: 4, right: 12),
+                      constraints: const BoxConstraints(),
+                    ),
+                  ],
                 ),
               ),
               autocorrect: true,
@@ -95,7 +142,9 @@ class _NewMessageState extends State<NewMessage> {
             ),
           ),
           IconButton(
-            onPressed: _enteredMessage.trim().isEmpty && _selectedPhoto == null ? null : _sendMessage,
+            onPressed: _enteredMessage.trim().isEmpty && _selectedPhoto == null
+                ? null
+                : _sendMessage,
             icon: const Icon(Icons.send),
             color: Colors.blue,
           ),
