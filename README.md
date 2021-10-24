@@ -2,7 +2,8 @@
 Android Chat App in Flutter with Firebase
 
 ### Features
-- sending a message
+- user registration and login
+- sending messages
 - sending photos
 - speech-to-text conversion
 
