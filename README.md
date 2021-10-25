@@ -7,7 +7,9 @@ Android Chat App in Flutter with Firebase
 - sending photos
 - speech-to-text conversion
 
-https://user-images.githubusercontent.com/38383794/138605755-aeb3917c-6953-4d68-95f5-73efd7d01bba.mp4
+
+https://user-images.githubusercontent.com/38383794/138727674-e74533c8-5b4e-4f59-b87b-e43a9861d948.mp4
+
 
 ### License
 
