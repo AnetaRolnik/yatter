@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
+import '../../screens/photo_screen.dart';
+
 class MessageBubble extends StatefulWidget {
   const MessageBubble(this.message, this.isMe, this.username, this.userImage,
       this.createdAt, this.photo,
@@ -81,10 +83,18 @@ class _MessageBubbleState extends State<MessageBubble> {
                             fontSize: 16,
                           ),
                         ),
-                      if (!widget.photo.isEmpty && !widget.message.isEmpty) SizedBox(height: 10),
+                      if (!widget.photo.isEmpty && !widget.message.isEmpty)
+                        SizedBox(height: 10),
                       if (!widget.photo.isEmpty)
-                        Image(
-                          image: NetworkImage(widget.photo),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) {
+                              return PhotoScreen(widget.photo);
+                            }));
+                          },
+                          child: Image(
+                            image: NetworkImage(widget.photo),
+                          ),
                         ),
                     ],
                   ),

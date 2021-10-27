@@ -26,7 +26,7 @@ class _NewMessageState extends State<NewMessage> {
   void _uploadPhoto() async {
     final selectedPhotoFile = await ImagePicker().pickImage(
       source: ImageSource.gallery,
-      maxWidth: 300,
+      maxWidth: 800,
       imageQuality: 80,
     );
     setState(() {
