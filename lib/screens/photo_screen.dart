@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/base_app_bar.dart';
+
 class PhotoScreen extends StatelessWidget {
   const PhotoScreen(this.urlPhoto, {Key? key}) : super(key: key);
 
@@ -8,27 +10,7 @@ class PhotoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          'assets/images/logo.png',
-          fit: BoxFit.contain,
-          height: 48,
-        ),
-        centerTitle: true,
-        elevation: 0,
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Theme.of(context).primaryColor,
-                Theme.of(context).colorScheme.secondary
-              ],
-            ),
-          ),
-        ),
-      ),
+      appBar: BaseAppBar(),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20),
